@@ -38,7 +38,7 @@ function Home() {
           </section>
           <div className="favoritos">
             <section className="plato">
-              <img src="/src/assets/img/portada3.png" />
+              <img src="../../assets/img/portada3.png" />
               <div className="contenido">
                 <h3>La favorita de los fans</h3>
                 <h2>
@@ -54,7 +54,7 @@ function Home() {
               </div>
             </section>
             <section className="plato2">
-              <img src="/src/assets/img/portada2.avif" />
+              <img src="../../assets/img/portada2.avif" />
               <div className="contenido">
                 <h3>Una pausa que inspira</h3>
                 <h2>Recarga tu día con nuestro almuerzo ejecutivo</h2>
@@ -74,22 +74,22 @@ function Home() {
             <div className="carousel">
               <div className="carousel-inner">
                 <div className="carousel-item">
-                  <img src="/src/assets/img/albondigas.png" alt="Albóndigas" />
+                  <img src="../../assets/img/albondigas.png" alt="Albóndigas" />
                 </div>
                 <div className="carousel-item">
-                  <img src="/src/assets/img/bandejapaisa.png" alt="Bandeja Paisa" />
+                  <img src="../../assets/img/bandejapaisa.png" alt="Bandeja Paisa" />
                 </div>
                 <div className="carousel-item">
-                  <img src="/src/assets/img/costillas.png" alt="Costillas" />
+                  <img src="../../assets/img/costillas.png" alt="Costillas" />
                 </div>
                 <div className="carousel-item">
-                  <img src="/src/assets/img/pastaschamp.jpg" alt="Costillas" />
+                  <img src="../../assets/img/pastaschamp.jpg" alt="Costillas" />
                 </div>
                 <div className="carousel-item">
-                  <img src="/src/assets/img/polloguisado.png" alt="Costillas" />
+                  <img src="../../assets/img/polloguisado.png" alt="Costillas" />
                 </div>
                 <div className="carousel-item">
-                  <img src="/src/assets/img/mojarra.png" alt="Costillas" />
+                  <img src="../../assets/img/mojarra.png" alt="Costillas" />
                 </div>
               </div>
               <div className="carousel-nav">
