@@ -108,7 +108,7 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
 }
 
 .hero{
-    background-image: url(../../assets/img/portada.png);
+    background-image: url(img/portada.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -310,7 +310,7 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
 
 
 .pedidos-comida{
-    background-image: url(../../assets/img/condimentos.jpg);
+    background-image: url(img/condimentos.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
