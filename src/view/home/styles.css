@@ -19,6 +19,7 @@ html{
 }
 
 body{
+    margin: 0;
     font-size: 16px; /*1rem = 10px*/
     font-family: var(--fuentePrincipal);
     background-image: linear-gradient(to top, var(--grisClaro) 0%, var(--blanco) 100%);
@@ -107,7 +108,7 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
 }
 
 .hero{
-    background-image: url(../../assets/img/hero.jpg);
+    background-image: url(../../assets/img/portada.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -306,6 +307,44 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
 .carousel-indicators button.active {
     background-color: var(--primario);
 }
+
+
+.pedidos-comida{
+    background-image: url(../../assets/img/condimentos.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    height: 80rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order{
+    background-color: var(--primario);
+    width: 40rem;
+    height: 40rem;
+    text-align: center;
+    color: var(--pielPastel);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.order .boton{
+    background-color: var(--grisClaro);
+    color: var(--primario);
+}
+
+.order .boton:hover{
+    background-color: var(--primario);
+    color: var(--blanco);
+    border: 0.1rem solid var(--blanco);
+}
+
 
 /*PIE DE PAGINA*/
 .footer {
