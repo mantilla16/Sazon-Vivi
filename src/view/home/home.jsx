@@ -1,20 +1,11 @@
+import Header from "../../componentes/header"
+import Footer from  "../../componentes/footer"
+import Carrousel from "../../componentes/carousel";
 function Home() {
   return (
     <>
       <>
-        <header>
-          <h1>LA SAZÓN DE VIVI</h1>
-        </header>
-        <hr />
-        <div className="nav-bg">
-          <nav className="navegacion-principal contenedor">
-            <a href="index.html">Home</a>
-            <a href="menu.html">Menu</a>
-            <a href="#">Quienes somos</a>
-            <a href="#">Platos de la casa</a>
-          </nav>
-        </div>
-
+      <Header />
         <section className="hero">
           <div className="contenido-hero">
             <h2>Sabores que inspiran, servidos con pasión en cada plato.</h2>
@@ -69,43 +60,7 @@ function Home() {
             </section>
           </div>
 
-          <section className="box-carrousel">
-            <h1>Especialidades</h1>
-            <div className="carousel">
-              <div className="carousel-inner">
-                <div className="carousel-item">
-                  <img src="img/albondigas.png" alt="Albóndigas" />
-                </div>
-                <div className="carousel-item">
-                  <img src="img/bandejapaisa.png" alt="Bandeja Paisa" />
-                </div>
-                <div className="carousel-item">
-                  <img src="img/costillas.png" alt="Costillas" />
-                </div>
-                <div className="carousel-item">
-                  <img src="img/pastaschamp.jpg" alt="Costillas" />
-                </div>
-                <div className="carousel-item">
-                  <img src="img/polloguisado.png" alt="Costillas" />
-                </div>
-                <div className="carousel-item">
-                  <img src="img/mojarra.png" alt="Costillas" />
-                </div>
-              </div>
-              <div className="carousel-nav">
-                <button className="prev">❮</button>
-                <button className="next">❯</button>
-              </div>
-              <div className="carousel-indicators">
-                <button data-slide="0" className="active"></button>
-                <button data-slide="1"></button>
-                <button data-slide="2"></button>
-                <button data-slide="3"></button>
-                <button data-slide="4"></button>
-                <button data-slide="5"></button>
-              </div>
-            </div>
-          </section>
+         <Carrousel/>
 
           <section className="pedidos-comida">
             <div className="order">
@@ -122,32 +77,7 @@ function Home() {
             </div>
           </section>
         </main>
-
-        <footer className="footer">
-          <div className="footer-container">
-            <div className="footer-section">
-              <h3>Sobre Nosotros</h3>
-              <p>
-                Ofrecemos los mejores almuerzos ejecutivos, rápidos y
-                deliciosos.
-              </p>
-            </div>
-            <div className="footer-section">
-              <h3>Contáctanos</h3>
-              <p>📍 Dirección: Calle 123, Ciudad</p>
-              <p>📞 Teléfono: +57 123 456 7890</p>
-              <p>📲 WhatsApp: +57 987 654 3210</p>
-            </div>
-            <div className="footer-section">
-              <h3>Síguenos</h3>
-              <a href="#">Facebook</a> | <a href="#">Instagram</a> |{" "}
-              <a href="#">Twitter</a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; 2025 La Sazón de Vivi. Todos los derechos reservados.</p>
-          </div>
-        </footer>
+        <Footer/>
       </>
     </> //Cierre de los divs
   ); //Cierre del return
