@@ -6,16 +6,13 @@ function Carrousel (){
     const carouselInnerRef = useRef(null);
     const totalItems = 6;
 
-    function updateCarousel(){
-        if(carouselInnerRef.current){
-            const offSet = -currentIndex*100;
-            carouselInnerRef.current.style.transform = `translateX(${offSet}%)`;
-        }
-    }
-
     useEffect(() => {
-        updateCarousel();
-    }, [currentIndex]);
+      if(carouselInnerRef.current){
+        const offSet = -currentIndex*100;
+        carouselInnerRef.current.style.transform = `translateX(${offSet}%)`;
+      }
+      
+    },[currentIndex]);
 
     return(
         <>

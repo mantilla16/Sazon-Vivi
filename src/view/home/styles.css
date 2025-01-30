@@ -91,7 +91,7 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
    } 
 }
 
-.navegacion-principal a{
+.navegacion-principal .link{
     display: block;
     text-align: center;
     color: var(--oscuro);
@@ -101,7 +101,7 @@ a partir de 400px en adelante, menor a 400px cambia el diseño*/
     padding: 1rem;
 }
 
-.navegacion-principal a:hover{
+.navegacion-principal .link:hover{
     background-color: var(--primario);
     color: var(--blanco);
     height: 100%;
