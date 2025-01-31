@@ -1,8 +1,8 @@
 
-import Carrousel from "../../componentes/carousel";
+import Carrousel from "../../componentes/carousel/carousel";
+import './home-page-styles.css';
 function Home() {
   return (
-    <>
       <>
         <section className="hero">
           <div className="contenido-hero">
@@ -76,7 +76,6 @@ function Home() {
           </section>
         </main>
       </>
-    </> //Cierre de los divs
   ); //Cierre del return
 } //cierre de la función Home
 

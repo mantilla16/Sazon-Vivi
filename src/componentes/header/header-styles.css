@@ -1,0 +1,38 @@
+.navegacion-principal{
+    display: flex;
+    flex-direction: column;
+}
+
+/*El min width es el codigo que se va mostrar a partir
+de esa medida, es decir si pongo min-width: 400ox 
+Lo que hara es mantener el diseño que se ponga dentro 
+a partir de 400px en adelante, menor a 400px cambia el diseño*/
+/* 
+    min-width: 480px; tamaño ideal para celulares
+    min-width: 768px; tamaño ideal para tablets
+    min-width: 1140px; tamaño ideal para para una laptop
+    min-width: 1400px; tamaño ideal para laptops
+*/
+
+@media (min-width: 768px) { 
+   .navegacion-principal{
+        flex-direction: row;
+        justify-content: space-between;
+   } 
+}
+
+.navegacion-principal .link{
+    display: block;
+    text-align: center;
+    color: var(--oscuro);
+    text-decoration: none; 
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 1rem;
+}
+
+.navegacion-principal .link:hover{
+    background-color: var(--primario);
+    color: var(--blanco);
+    height: 100%;
+}

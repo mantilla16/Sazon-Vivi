@@ -1,7 +1,20 @@
-
+import {useRef} from 'react'
 import './styles.css'
 
 function Menu () {
+
+    const overlayRef = useRef(null);
+    const infoDiv = useRef(null);
+
+    const mostrarPedido = () => {
+        if (overlayRef.current && infoDiv.current) {
+            overlayRef.current.style.display = "block"; 
+            infoDiv.current.style.display = "block";
+          }
+    }
+    // useEffect(() => {
+        
+    //   }, []);
     return (
         <main className="mainMenu contenedor">
         <h1 className="contenedor__titulo">Menú del día</h1>
@@ -15,7 +28,7 @@ function Menu () {
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido}><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
@@ -81,7 +94,9 @@ function Menu () {
             </div>
         </div> 
 
-        <div className="infoDiv" id="infoDiv">
+        <div className='overlay' ref={overlayRef}></div>
+
+        <div className="infoDiv" ref={infoDiv}>
             <div className="contenidoInfo">
                 <h1>PEDIDO</h1>
                 <div className="contenidoInfo__imagen">
@@ -164,7 +179,7 @@ function Menu () {
                   </button>
             </div>
         </div>
-        <div id="overlay"></div>
+        
 
         <div className="menuFlotante">
             <button className="OrderNow" >

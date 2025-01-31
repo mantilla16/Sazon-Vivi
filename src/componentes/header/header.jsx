@@ -1,6 +1,9 @@
 import { Routes, Route, Link } from 'react-router-dom';
-import HomePage from '../view/pages/home-page';
-import Menu from '../view/menu/menu';
+import HomePage from '../../view/pages/home-page';
+import Menu from '../../view/menu/menu';
+// import OptionsModal from '../../App';
+import './header-styles.css';
+
 function Header() {
     return (
         <>
@@ -20,6 +23,7 @@ function Header() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/menu" element={<Menu />} />
+                {/* <Route path="/app" element={<OptionsModal />} /> */}
                 {/* Aquí puedes añadir más rutas cuando tengas más páginas */}
             </Routes>
         </>

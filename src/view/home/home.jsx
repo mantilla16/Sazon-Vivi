@@ -1,7 +1,6 @@
 // src/view/home/home.jsx
-import Header from "../../componentes/header"
-import Footer from "../../componentes/footer"
-import './styles.css'
+import Header from "../../componentes/header/header"
+import Footer from "../../componentes/footer/footer"
 
 function Home() {
   return (

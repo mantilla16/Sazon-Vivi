@@ -1,0 +1,41 @@
+/*PIE DE PAGINA*/
+.footer {
+    background-color: var(--primario);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2rem;
+    max-width: 120rem;
+    margin: auto;
+  }
+  
+  .footer-section {
+    margin: 1rem;
+    min-width: 20rem;
+  }
+  
+  .footer-section h3 {
+    border-bottom: .2rem solid var(--blanco);
+    padding-bottom: .5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section a {
+    color: var(--grisClaro);
+    text-decoration: none;
+  }
+  
+  .footer-section a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+  }
