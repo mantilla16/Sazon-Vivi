@@ -1,20 +1,94 @@
-import {useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import './styles.css'
 
 function Menu () {
 
     const overlayRef = useRef(null);
     const infoDiv = useRef(null);
+    const infoOrden = useRef(null);
+    const nombrePlatoRef = useRef();
+    const opcionesFormRef = useRef();
+    const [pedidos, setPedido] = useState([]);
+    const [selecciones, setSelecciones] = useState({
+        arroz:'',
+        ensalada:'',
+        granos:'',
+        sopa:''
+    });
+
 
     const mostrarPedido = () => {
         if (overlayRef.current && infoDiv.current) {
             overlayRef.current.style.display = "block"; 
-            infoDiv.current.style.display = "block";
+            infoDiv.current.style.display = "flex";
+            infoDiv.current.style.justifyContent="center";
           }
     }
-    // useEffect(() => {
-        
-    //   }, []);
+
+    const listarOrden = () => {
+        if (overlayRef.current && infoOrden.current) {
+            overlayRef.current.style.display = "block"; 
+            infoOrden.current.style.display = "flex";
+            infoOrden.current.style.justifyContent="center";
+
+          }
+    }
+    const cargarPedido = () =>{
+        if (overlayRef.current && infoDiv.current) {
+            overlayRef.current.style.display = "none"; 
+            infoDiv.current.style.display = "none";
+          }
+
+          const nombrePlato =nombrePlatoRef.current.textContent;
+
+          if(selecciones.arroz && selecciones.ensalada && selecciones.granos && selecciones.sopa){
+            const nuevoPedido={
+                plato: nombrePlato,
+                ...selecciones
+            };
+            
+            console.log("Pedidos actuales antes de actualizar:", pedidos);
+            setPedido([...pedidos, nuevoPedido]);
+            
+           
+            // setSelecciones({
+            //     arroz:'',
+            //     ensalada:'',
+            //     granos:'',
+            //     sopa:''
+            // })
+
+            // opcionesFormRef.current.reset();
+            alert("Pedido guardado exitosamente");
+            opcionesFormRef.current.reset();
+          }else{
+            alert("Seleccione todas las opciones");
+          }    
+    }
+
+    useEffect(()=>{
+        console.log("Selecciones actuales: ", JSON.stringify(selecciones, null, 2));
+        console.log("Pedidos actuales: ", JSON.stringify(pedidos, null, 2));
+      },[pedidos, selecciones])
+      
+
+    const tomarOtroPedido =()=>{
+        if (overlayRef.current && infoOrden.current) {
+            overlayRef.current.style.display = "none"; 
+            infoOrden.current.style.display = "none";
+
+          }
+    }
+
+    const tipoSeleccion =(e)=>{
+        const {name, value} = e.target;
+        setSelecciones(prevState=>({
+            ...prevState,
+            [name]:value
+        }));
+    }
+    
+
     return (
         <main className="mainMenu contenedor">
         <h1 className="contenedor__titulo">Menú del día</h1>
@@ -24,7 +98,7 @@ function Menu () {
             <div className="menu" id="plato1__Costillas">
                 <img className="menu__imagen" src="img/costillas.png" alt="costillas bbq"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Costillas BBQ</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre" >Costillas BBQ</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
@@ -36,11 +110,11 @@ function Menu () {
             <div className="menu"id="plato1__Albondigas">
                 <img className="menu__imagen" src="img/albondigas.png" alt="albondigas"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Albondigas</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre">Albondigas</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
@@ -48,11 +122,11 @@ function Menu () {
             <div className="menu"id="plato1__Mojarra">
                 <img className="menu__imagen" src="img/mojarra.png" alt="mojarra"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Mojarra frita</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre">Mojarra frita</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
@@ -60,11 +134,11 @@ function Menu () {
             <div className="menu"id="plato1__PastasChamp">
                 <img className="menu__imagen" src="img/pastaschamp.jpg" alt="pastas con champiñones"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Pastas con champiñones</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre">Pastas con champiñones</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
@@ -72,11 +146,11 @@ function Menu () {
             <div className="menu"id="plato1__BandejaPaisa">
                 <img className="menu__imagen" src="img/bandejapaisa.png" alt="bandeja paisa"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Bandeja paisa</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre">Bandeja paisa</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
@@ -84,17 +158,17 @@ function Menu () {
             <div className="menu" id="plato1__PolloGuisado">
                 <img className="menu__imagen" src="img/polloguisado.png" alt="pollo guisado"/>
                 <div className="menu__informacion">
-                    <h3 className="menu__nombre">Pollo guisado</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre">Pollo guisado</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
                         <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
         </div> 
 
-        <div className='overlay' ref={overlayRef}></div>
+        
 
         <div className="infoDiv" ref={infoDiv}>
             <div className="contenidoInfo">
@@ -106,19 +180,19 @@ function Menu () {
                     <h2 id="nombre__plato">Costillas BBQ</h2><p>Granos del día(Zaragozas, lentejas) Papitas, patacones, ensalada</p>
                 </div>
                 <h2>Acompañamientos</h2>
-                <form className="menu__opciones">
+                <form ref={opcionesFormRef} className="menu__opciones">
                     <fieldset className="grupo-arroz">
                         <legend className="tipo__opcion">Tipos de Arroz</legend>
                         <div>
-                            <input type="radio"  name="arroz" value="coco"/>
+                            <input type="radio"  name="arroz" value="coco" onChange={tipoSeleccion}/>
                             <label >Coco</label>
                         </div>
                         <div>
-                            <input type="radio" name="arroz" value="blanco"/>
+                            <input type="radio" name="arroz" value="blanco" onChange={tipoSeleccion}/>
                             <label >Blanco</label>
                         </div>
                         <div>
-                            <input type="radio"  name="arroz" value="fideo"/>
+                            <input type="radio"  name="arroz" value="fideo" onChange={tipoSeleccion}/>
                             <label >Fideo</label>
                         </div>
                     </fieldset>
@@ -126,11 +200,11 @@ function Menu () {
                     <fieldset className="grupo-ensaladas">
                         <legend className="tipo__opcion">Ensalada</legend>
                         <div>
-                            <input type="radio"  name="ensalada" value="sin-ensalada"/>
+                            <input type="radio"  name="ensalada" value="sin-ensalada" onChange={tipoSeleccion}/>
                             <label >Sin ensalda</label>
                         </div>
                         <div>
-                            <input type="radio"  name="ensalada" value="con-ensalada"/>
+                            <input type="radio"  name="ensalada" value="con-ensalada" onChange={tipoSeleccion}/>
                             <label >Con ensalada</label>
                         </div>
                     </fieldset>
@@ -138,11 +212,11 @@ function Menu () {
                     <fieldset className="grupo-granos">
                         <legend className="tipo__opcion">Granos</legend>
                         <div>
-                            <input type="radio" name="granos" value="sin-granos"/>
+                            <input type="radio" name="granos" value="sin-granos" onChange={tipoSeleccion}/>
                             <label >Sin granos</label>
                         </div>
                         <div>
-                            <input type="radio" name="granos" value="con-granos"/>
+                            <input type="radio" name="granos" value="con-granos" onChange={tipoSeleccion}/>
                             <label >Con granos</label>
                         </div>
                     </fieldset>
@@ -150,16 +224,16 @@ function Menu () {
                     <fieldset className="grupo-sopas">
                         <legend className="tipo__opcion">Sopa</legend>
                         <div>
-                            <input type="radio" name="sopa" value="sin-sopa"/>
+                            <input type="radio" name="sopa" value="sin-sopa" onChange={tipoSeleccion}/>
                             <label >Sin sopa</label>
                         </div>
                         <div>
-                            <input type="radio" name="sopa" value="con-sopa"/>
+                            <input type="radio" name="sopa" value="con-sopa" onChange={tipoSeleccion}/>
                             <label >Con sopa</label>
                         </div>
                     </fieldset>
                 </form>
-                <button id="guardar-pedido" className="añadir-pedido" >
+                <button id="guardar-pedido" className="añadir-pedido"  onClick={cargarPedido}>
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="55"
@@ -179,10 +253,11 @@ function Menu () {
                   </button>
             </div>
         </div>
-        
+
+        <div className='overlay' ref={overlayRef}></div>
 
         <div className="menuFlotante">
-            <button className="OrderNow" >
+            <button className="OrderNow" onClick={listarOrden}>
                 <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="100"
@@ -205,7 +280,7 @@ function Menu () {
             </button>
         </div>
 
-        <div className="contenedor pedido" id="Listapedidos">
+        <div className="contenedor pedido" ref={infoOrden}>
             <div className="pedido__info">
                 <h2>Confirmar pedido</h2>
                 <p>Por favor indicar la torre y el apto. Si es fuera de alameda indicar su nombre y direccion </p>
@@ -235,7 +310,7 @@ function Menu () {
                 </form>
                 <div className="pedido__botones">
                     <button >Enviar pedido</button>
-                    <button >Tomar otro pedido</button>
+                    <button onClick={tomarOtroPedido}>Tomar otro pedido</button>
                 </div>
             </div>
         </div>
