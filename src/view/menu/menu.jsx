@@ -48,7 +48,10 @@ function Menu () {
 
     
         useEffect( ()=> {
-                console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
+                if(Object.keys(selecciones).length > 0 && Object.keys(pedidos).length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
+                   console.log("Holaaa: ", JSON.stringify(pedidos, null, 2)); 
+                }
+                
         },[pedidos])
             
     
