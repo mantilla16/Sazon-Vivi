@@ -39,38 +39,22 @@ function Menu () {
             infoDiv.current.style.display = "none";
           }
 
-          const nombrePlato =nombrePlatoRef.current.textContent;
+        // const nombrePlato =nombrePlatoRef.current.textContent;
 
-          if(selecciones.arroz && selecciones.ensalada && selecciones.granos && selecciones.sopa){
-            const nuevoPedido={
-                plato: nombrePlato,
-                ...selecciones
-            };
+        if(selecciones.arroz && selecciones.ensalada && selecciones.granos && selecciones.sopa){ 
+            setPedido(prevState=>([...prevState,selecciones]));            
+        }    
+    } 
+
+    
+        useEffect( ()=> {
+                console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
+        },[pedidos])
             
-            console.log("Pedidos actuales antes de actualizar:", pedidos);
-            setPedido([...pedidos, nuevoPedido]);
-            
-           
-            // setSelecciones({
-            //     arroz:'',
-            //     ensalada:'',
-            //     granos:'',
-            //     sopa:''
-            // })
-
-            // opcionesFormRef.current.reset();
-            alert("Pedido guardado exitosamente");
-            opcionesFormRef.current.reset();
-          }else{
-            alert("Seleccione todas las opciones");
-          }    
-    }
-
-    useEffect(()=>{
-        console.log("Selecciones actuales: ", JSON.stringify(selecciones, null, 2));
-        console.log("Pedidos actuales: ", JSON.stringify(pedidos, null, 2));
-      },[pedidos, selecciones])
-      
+    
+    
+    
+    
 
     const tomarOtroPedido =()=>{
         if (overlayRef.current && infoOrden.current) {
