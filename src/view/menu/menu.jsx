@@ -8,6 +8,7 @@ function Menu () {
     const infoOrden = useRef(null);
     const nombrePlatoRef = useRef();
     const opcionesFormRef = useRef();
+    const infoAddFormRef = useRef();
     const [pedidos, setPedido] = useState([]);
     const [selecciones, setSelecciones] = useState({
         arroz:'',
@@ -15,6 +16,27 @@ function Menu () {
         granos:'',
         sopa:''
     });
+
+    const [medioPago, setmedioPago] = useState({
+        pago:'',
+        text:''
+    })
+
+
+    const urlDesktop = 'https://web.whatsapp.com/';
+    const urlMobile = 'whatsapp://';
+    const telefono = '3115697605';
+
+    const isMobile =()=>{
+        if (sessionStorage.desktop)
+            return false;
+        else if (localStorage.mobile)
+            return true;
+        var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
+        for (var i in mobile)
+            if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
+        return false;
+    }
 
 
     const mostrarPedido = () => {
@@ -39,26 +61,16 @@ function Menu () {
             infoDiv.current.style.display = "none";
           }
 
-        // const nombrePlato =nombrePlatoRef.current.textContent;
+        const plato =nombrePlatoRef.current.textContent;
 
         if(selecciones.arroz && selecciones.ensalada && selecciones.granos && selecciones.sopa){ 
-            setPedido(prevState=>([...prevState,selecciones]));            
-        }    
+            setPedido(prevState=>([...prevState,{...selecciones, plato}]));            
+        } 
+        
+        opcionesFormRef.current.reset();
     } 
-
-    
-        useEffect( ()=> {
-                if(Object.keys(selecciones).length > 0 && Object.keys(pedidos).length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
-                   console.log("Holaaa: ", JSON.stringify(pedidos, null, 2)); 
-                }
-                
-        },[pedidos])
-            
     
     
-    
-    
-
     const tomarOtroPedido =()=>{
         if (overlayRef.current && infoOrden.current) {
             overlayRef.current.style.display = "none"; 
@@ -67,13 +79,73 @@ function Menu () {
           }
     }
 
+    const enviarPedidoWP = () =>{
+        if (overlayRef.current && infoOrden.current) {
+            overlayRef.current.style.display = "none"; 
+            infoOrden.current.style.display = "none";
+        }
+
+        let mensajeCompleto = '*PEDIDO COMPLETO*%0A'
+        
+        pedidos.map ((pedido, index) =>{
+            mensajeCompleto +=`*Pedido ${index + 1}:*%0A`
+            mensajeCompleto +=`- Plato: ${pedido.plato}%0A`
+            mensajeCompleto +=`- Arroz: ${pedido.arroz}%0A`
+            mensajeCompleto +=`- Ensalada: ${pedido.ensalada}%0A`
+            mensajeCompleto +=`- Granos: ${pedido.granos}%0A`
+            mensajeCompleto +=`- Sopa: ${pedido.sopa}%0A`
+        })
+        mensajeCompleto +=`Medio de pago: ${medioPago.pago}%A0`
+        mensajeCompleto +=`Informacion adicional: ${medioPago.text}%0A%0A`
+        let mensaje = 'send?phone=' + telefono + '&text=' + mensajeCompleto;
+
+        if(isMobile()) {
+            window.open(urlMobile + mensaje, '_blank')
+            infoAddFormRef.current.reset()
+            // document.querySelector('.informacionAdicional').reset();
+        }else{
+            window.open(urlDesktop + mensaje, '_blank')
+            infoAddFormRef.current.reset()
+           // document.querySelector('.informacionAdicional').reset();
+        }
+    }
+
     const tipoSeleccion =(e)=>{
         const {name, value} = e.target;
-        setSelecciones(prevState=>({
-            ...prevState,
-            [name]:value
-        }));
+        
+            setSelecciones(prevState=>({
+                ...prevState,
+                [name]:value
+            }));
+        
     }
+
+    const infoAdicional =(e)=>{
+             
+        const {name, value, type} = e.target;
+
+        if(type === 'radio'){
+            setmedioPago(prevState =>({
+                ...prevState,
+                [name]:value
+            }))
+        }else if(type === 'text'){
+            setmedioPago(prevState =>({
+                ...prevState,
+                [name]:value
+            }))
+        }
+    }
+
+    useEffect( ()=> {
+        if(Object.keys(selecciones).length > 0 && Object.keys(pedidos).length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
+            console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
+        }
+
+        if(Object.keys(medioPago).length > 0){
+            console.log(JSON.stringify(medioPago, null, 2))
+        }
+    },[pedidos, medioPago])
     
 
     return (
@@ -244,6 +316,7 @@ function Menu () {
         <div className='overlay' ref={overlayRef}></div>
 
         <div className="menuFlotante">
+
             <button className="OrderNow" onClick={listarOrden}>
                 <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -272,17 +345,31 @@ function Menu () {
                 <h2>Confirmar pedido</h2>
                 <p>Por favor indicar la torre y el apto. Si es fuera de alameda indicar su nombre y direccion </p>
                 
-                <div className="enviarOrden" id="enviarOrden"></div>
+                <div className="pedidoCompleto" >
+                    {pedidos.map((pedido, index)=>(
+                        
+                            <div key={index}>
+                                <h4>Pedido: {index + 1}</h4>
+                                <p><strong>Plato:</strong> {pedido.plato}</p>
+                                <p><strong>Arroz:</strong> {pedido.arroz}</p>
+                                <p><strong>Ensalada:</strong> {pedido.ensalada}</p>
+                                <p><strong>Grano:</strong> {pedido.granos}</p>
+                                <p><strong>Sopa:</strong> {pedido.sopa}</p>
+                                <hr></hr>
+                            </div>
+                        
+                    ))}
+                </div>
 
-                <form className="informacionAdicional">
+                <form ref={infoAddFormRef} className="informacionAdicional">
                     <fieldset className="medioDePago">
                         <legend className="tipo__opcion">Medio de pago</legend>
                         <div>
-                            <input type="radio" name="pago" value="efectivo"/>
+                            <input type="radio" name="pago" value="efectivo" onChange={infoAdicional}/>
                             <label >Efectivo</label>
                         </div>
                         <div>
-                            <input type="radio" name="pago" value="transferencia"/>
+                            <input type="radio" name="pago" value="transferencia" onChange={infoAdicional}/>
                             <label >transferencia</label>
                         </div>
                     </fieldset>
@@ -290,13 +377,13 @@ function Menu () {
                     <fieldset className="grupo-direcciones">
                         <legend className="tipo__opcion">Informacion adcional</legend>
                         <div>
-                            <input type="text" className="informacionAdicional-direccion" id="infoadicional" placeholder="Ingrese direccion o conjunto y torre" />
+                            <input type="text" name="text" className="informacionAdicional-direccion" onChange={infoAdicional} placeholder="Ingrese direccion o conjunto y torre" />
                         </div>
                     </fieldset>
 
                 </form>
                 <div className="pedido__botones">
-                    <button >Enviar pedido</button>
+                    <button onClick={enviarPedidoWP}>Enviar pedido</button>
                     <button onClick={tomarOtroPedido}>Tomar otro pedido</button>
                 </div>
             </div>
