@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useRef, useState} from 'react'
 import './styles.css'
 
 function Menu () {
@@ -18,7 +18,7 @@ function Menu () {
     });
 
     const [medioPago, setmedioPago] = useState({
-        pago:'',
+        pago:'' ,
         text:''
     })
 
@@ -38,6 +38,7 @@ function Menu () {
         return false;
     }
 
+    
 
     const mostrarPedido = () => {
         if (overlayRef.current && infoDiv.current) {
@@ -84,30 +85,34 @@ function Menu () {
             overlayRef.current.style.display = "none"; 
             infoOrden.current.style.display = "none";
         }
-
-        let mensajeCompleto = '*PEDIDO COMPLETO*%0A'
         
-        pedidos.map ((pedido, index) =>{
-            mensajeCompleto +=`*Pedido ${index + 1}:*%0A`
-            mensajeCompleto +=`- Plato: ${pedido.plato}%0A`
-            mensajeCompleto +=`- Arroz: ${pedido.arroz}%0A`
-            mensajeCompleto +=`- Ensalada: ${pedido.ensalada}%0A`
-            mensajeCompleto +=`- Granos: ${pedido.granos}%0A`
-            mensajeCompleto +=`- Sopa: ${pedido.sopa}%0A`
-        })
-        mensajeCompleto +=`Medio de pago: ${medioPago.pago}%A0`
-        mensajeCompleto +=`Informacion adicional: ${medioPago.text}%0A%0A`
-        let mensaje = 'send?phone=' + telefono + '&text=' + mensajeCompleto;
-
-        if(isMobile()) {
-            window.open(urlMobile + mensaje, '_blank')
-            infoAddFormRef.current.reset()
-            // document.querySelector('.informacionAdicional').reset();
+        if(medioPago.pago.trim() != '' && medioPago.text.trim() != '' && pedidos.length>0){
+            let mensajeCompleto = '*PEDIDO COMPLETO*%0A'
+        
+            pedidos.map ((pedido, index) =>{
+                mensajeCompleto +=`*Pedido ${index + 1}:*%0A`
+                mensajeCompleto +=`- Plato: ${pedido.plato}%0A`
+                mensajeCompleto +=`- Arroz: ${pedido.arroz}%0A`
+                mensajeCompleto +=`- Ensalada: ${pedido.ensalada}%0A`
+                mensajeCompleto +=`- Granos: ${pedido.granos}%0A`
+                mensajeCompleto +=`- Sopa: ${pedido.sopa}%0A`
+            })
+            mensajeCompleto +=`Medio de pago: ${medioPago.pago}%A0`
+            mensajeCompleto +=`Informacion adicional: ${medioPago.text}%0A%0A`
+            let mensaje = 'send?phone=' + telefono + '&text=' + mensajeCompleto;
+    
+            if(isMobile()) {
+                 window.open(urlMobile + mensaje, '_blank')
+                infoAddFormRef.current.reset()
+            }else{
+                 window.open(urlDesktop + mensaje, '_blank')
+                infoAddFormRef.current.reset()
+            }
+                      
         }else{
-            window.open(urlDesktop + mensaje, '_blank')
-            infoAddFormRef.current.reset()
-           // document.querySelector('.informacionAdicional').reset();
+            alert("Por favor realizar un pedido")
         }
+        
     }
 
     const tipoSeleccion =(e)=>{
@@ -120,8 +125,7 @@ function Menu () {
         
     }
 
-    const infoAdicional =(e)=>{
-             
+    const infoAdicional =(e)=>{   
         const {name, value, type} = e.target;
 
         if(type === 'radio'){
@@ -137,15 +141,15 @@ function Menu () {
         }
     }
 
-    useEffect( ()=> {
-        if(Object.keys(selecciones).length > 0 && Object.keys(pedidos).length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
-            console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
-        }
+    // useEffect( ()=> {
+    //     if(pedidos.length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
+    //         console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
+    //     }
 
-        if(Object.keys(medioPago).length > 0){
-            console.log(JSON.stringify(medioPago, null, 2))
-        }
-    },[pedidos, medioPago])
+    //     if(medioPago.pago.trim() != '' && medioPago.text.trim() != ''){
+    //         console.log(Object.entries(medioPago).length)
+    //     }
+    // },[pedidos, medioPago])
     
 
     return (
