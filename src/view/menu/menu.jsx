@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react'
+import {/*useEffect*/ useRef, useState} from 'react'
 import './styles.css'
 
 function Menu () {
@@ -69,7 +69,7 @@ function Menu () {
                 // Al agregar un nuevo pedido, también agregamos un estado false para su dropdown
             setPedido(prevPedidos => {
                 const nuevosPedidos = [...prevPedidos, {...selecciones, plato}];
-                setOpenPedidos(new Array(nuevosPedidos.length).fill(false));
+                setOpenPedidos(prevOpen => [...prevOpen, false]);
                 return nuevosPedidos;
             });            
         } 
@@ -151,28 +151,16 @@ function Menu () {
     const togglePedido = (index) => {
         setOpenPedidos(prevState => {
             const nuevoEstado = [...prevState];
-            nuevoEstado[index] = !nuevoEstado[index];
+            nuevoEstado[index] = !nuevoEstado[index];            
             return nuevoEstado;
         });
+        
     };
 
-    const handleAddressConfirmation = (addressDetails) => {
-        // Update the medioPago state with the full address and location
-        setmedioPago(prevState => ({
-          ...prevState,
-          text: addressDetails.formattedAddress,
-          location: addressDetails.location
-        }));
-      };
     // useEffect( ()=> {
-    //     if(pedidos.length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
-    //         console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
-    //     }
-
-    //     if(medioPago.pago.trim() != '' && medioPago.text.trim() != ''){
-    //         console.log(Object.entries(medioPago).length)
-    //     }
-    // },[pedidos, medioPago])
+    //     console.log(openPedidos);
+        
+    // },[openPedidos])
     
 
     return (
@@ -380,11 +368,9 @@ function Menu () {
                     
                     <div className="pedidoCompleto">
                         {pedidos.map((pedido, index) => (
+                                                    
                             <div key={index} className='pedido__item'>
-                                <button 
-                                    onClick={() => togglePedido(index)} 
-                                    className='pedido-header'
-                                >
+                                <button onClick={() => togglePedido(index)} className='pedido-header'>
                                     <span>Pedido: {index + 1}</span>
                                     <span className="dropdown-arrow">
                                         {openPedidos[index] ? '▲' : '▼'}
