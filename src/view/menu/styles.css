@@ -191,6 +191,22 @@
     z-index: 9999;
 }
 
+.cantidad-pedidos {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 /*LISTA DE PEDIDOS*/
 
 
@@ -211,4 +227,104 @@
     padding: 1rem;
     align-items: center;
     border-radius: 2rem;
+}
+
+/*Area de pedidos*/
+
+/* Estilos para el contenedor de pedidos */
+.pedidoCompleto {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pedido__item {
+    margin-bottom: 1rem;
+    border: 1px solid var(--oscuro);
+    border-radius: 0.8rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.pedido-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--grisClaro);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pedido-header span:first-child {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--oscuro);
+}
+
+.dropdown-arrow {
+    font-size: 1.2rem;
+    color: var(--oscuro);
+    transition: transform 0.3s ease;
+}
+
+.pedido__item.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.pedido-detalles {
+    background-color: white;
+    padding: 1.5rem;
+    border-top: 1px solid var(--grisClaro);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: scaleY(0);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1);
+        max-height: 500px;
+    }
+}
+
+.pedido-detalles p {
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pedido-detalles p strong {
+    color: var(--oscuro);
+    margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+    .pedidoCompleto {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .pedido-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .pedido-header span:first-child {
+        font-size: 1.4rem;
+    }
+
+    .pedido-detalles {
+        padding: 1rem;
+    }
+
+    .pedido-detalles p {
+        font-size: 1.2rem;
+    }
 }
