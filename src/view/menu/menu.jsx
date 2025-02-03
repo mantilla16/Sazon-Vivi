@@ -10,6 +10,7 @@ function Menu () {
     const opcionesFormRef = useRef();
     const infoAddFormRef = useRef();
     const [pedidos, setPedido] = useState([]);
+    const [openPedidos, setOpenPedidos] = useState([]);
     const [selecciones, setSelecciones] = useState({
         arroz:'',
         ensalada:'',
@@ -60,12 +61,17 @@ function Menu () {
         if (overlayRef.current && infoDiv.current) {
             overlayRef.current.style.display = "none"; 
             infoDiv.current.style.display = "none";
-          }
+        }
 
-        const plato =nombrePlatoRef.current.textContent;
+        const plato = nombrePlatoRef.current.textContent;
 
         if(selecciones.arroz && selecciones.ensalada && selecciones.granos && selecciones.sopa){ 
-            setPedido(prevState=>([...prevState,{...selecciones, plato}]));            
+                // Al agregar un nuevo pedido, también agregamos un estado false para su dropdown
+            setPedido(prevPedidos => {
+                const nuevosPedidos = [...prevPedidos, {...selecciones, plato}];
+                setOpenPedidos(new Array(nuevosPedidos.length).fill(false));
+                return nuevosPedidos;
+            });            
         } 
         
         opcionesFormRef.current.reset();
@@ -141,6 +147,23 @@ function Menu () {
         }
     }
 
+    
+    const togglePedido = (index) => {
+        setOpenPedidos(prevState => {
+            const nuevoEstado = [...prevState];
+            nuevoEstado[index] = !nuevoEstado[index];
+            return nuevoEstado;
+        });
+    };
+
+    const handleAddressConfirmation = (addressDetails) => {
+        // Update the medioPago state with the full address and location
+        setmedioPago(prevState => ({
+          ...prevState,
+          text: addressDetails.formattedAddress,
+          location: addressDetails.location
+        }));
+      };
     // useEffect( ()=> {
     //     if(pedidos.length > 0){ //Con esta linea validamos que no se ejecute la accion si no hay selecciones y si no hay pedidos
     //         console.log("Holaaa: ", JSON.stringify(pedidos, null, 2));
@@ -341,29 +364,45 @@ function Menu () {
                 <path d="M12 13.99v.01" />
                 <path d="M12 17v.01" />
               </svg>
+                {pedidos.length > 0 && (
+                    //Si hay pedidos, mostramos la cantidad de pedidos
+                    <span className="cantidad-pedidos">
+                        {pedidos.length}
+                    </span>
+                )}
             </button>
         </div>
 
         <div className="contenedor pedido" ref={infoOrden}>
-            <div className="pedido__info">
-                <h2>Confirmar pedido</h2>
-                <p>Por favor indicar la torre y el apto. Si es fuera de alameda indicar su nombre y direccion </p>
-                
-                <div className="pedidoCompleto" >
-                    {pedidos.map((pedido, index)=>(
-                        
-                            <div key={index}>
-                                <h4>Pedido: {index + 1}</h4>
-                                <p><strong>Plato:</strong> {pedido.plato}</p>
-                                <p><strong>Arroz:</strong> {pedido.arroz}</p>
-                                <p><strong>Ensalada:</strong> {pedido.ensalada}</p>
-                                <p><strong>Grano:</strong> {pedido.granos}</p>
-                                <p><strong>Sopa:</strong> {pedido.sopa}</p>
-                                <hr></hr>
+                <div className="pedido__info">
+                    <h2>Confirmar pedido</h2>
+                    <p>Por favor indicar la torre y el apto. Si es fuera de alameda indicar su nombre y direccion </p>
+                    
+                    <div className="pedidoCompleto">
+                        {pedidos.map((pedido, index) => (
+                            <div key={index} className='pedido__item'>
+                                <button 
+                                    onClick={() => togglePedido(index)} 
+                                    className='pedido-header'
+                                >
+                                    <span>Pedido: {index + 1}</span>
+                                    <span className="dropdown-arrow">
+                                        {openPedidos[index] ? '▲' : '▼'}
+                                    </span>
+                                </button>
+
+                                {openPedidos[index] && (
+                                    <div className="pedido-detalles">
+                                        <p><strong>Plato:</strong> {pedido.plato}</p>
+                                        <p><strong>Arroz:</strong> {pedido.arroz}</p>
+                                        <p><strong>Ensalada:</strong> {pedido.ensalada}</p>
+                                        <p><strong>Grano:</strong> {pedido.granos}</p>
+                                        <p><strong>Sopa:</strong> {pedido.sopa}</p>
+                                    </div>
+                                )}
                             </div>
-                        
-                    ))}
-                </div>
+                        ))}
+                    </div>
 
                 <form ref={infoAddFormRef} className="informacionAdicional">
                     <fieldset className="medioDePago">
