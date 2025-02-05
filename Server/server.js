@@ -21,7 +21,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Aplica la configuración de CORS
 // eslint-disable-next-line no-undef
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,  // Asegura que se use el nuevo analizador de URL
+    useUnifiedTopology: true,  // Habilita el uso del nuevo motor de topología de MongoDB
+    connectTimeoutMS: 30000,  // Aumenta el tiempo de espera para la conexión
+})
     .then(() => console.log("MongoDB conectado"))
     .catch(err => console.log(err));
 
