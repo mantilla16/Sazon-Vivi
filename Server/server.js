@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 import cors from 'cors'; // Importa el middleware CORS
 import dotenv from 'dotenv';
 import Plato from './models/platoModel.js';
+import Seleccion from './models/seleccionModel.js';
 
 dotenv.config();
 
 const app = express();
+
 app.use(express.json()); // Middleware para leer el cuerpo de las solicitudes JSON
 
 // Configura CORS para permitir solicitudes desde tu frontend
@@ -24,6 +26,35 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.log(err));
 
 
+    
+app.post('/crear-seleccion', async (req, res) => {
+    try {
+        
+        console.log('Datos recibidos:', req.body); //🛠 Verificar qué datos llegan
+        
+        // Obtener los datos del cuerpo de la solicitud
+        const { tipoSeleccion, descripcionSeleccion, categoriaSeleccion } = req.body;
+
+        if (!tipoSeleccion || !descripcionSeleccion || !categoriaSeleccion) {
+            return res.status(400).json({ error: 'Faltan datos' });
+        }
+
+        // Crear un nuevo plato con los datos proporcionados
+        const nuevaSeleccion = new Seleccion({
+            tipoSeleccion,
+            descripcionSeleccion,
+            categoriaSeleccion
+        });
+
+        // Guardar el plato en la base de datos
+        await nuevaSeleccion.save();
+
+        // Responder con un mensaje de éxito
+        res.status(201).json({ message: 'Seleccion creada con éxito', seleccion: nuevaSeleccion });
+    } catch (err) {
+        res.status(500).send('Error al insertar seleccion: ' + err.message);
+    }
+});
 
 app.post('/crear-plato', async (req, res) => {
     try {

@@ -8,6 +8,7 @@ const PlatoSchema = new mongoose.Schema({
     categoria: { type: String }
 });
 
+
 const Plato = mongoose.model('Plato', PlatoSchema);
 
-export default Plato;
+export default Plato; 
