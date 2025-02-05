@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI)
     
 app.post('/crear-seleccion', async (req, res) => {
     try {
-        
+
         console.log('Datos recibidos:', req.body); //🛠 Verificar qué datos llegan
         
         // Obtener los datos del cuerpo de la solicitud
@@ -82,8 +82,10 @@ app.post('/crear-plato', async (req, res) => {
 app.get('/ver-platos', async (req, res) => {
     try {
         // Realizar una consulta específica, ejemplo: encontrar platos por categoría
-        const platos = await Plato.find({ categoria: 'Principal' });
+        const platos = await Plato.find({ categoria: 'Asados' });
         res.json(platos);
+        console.log(platos);
+        
     } catch (err) {
         res.status(500).send(err.message);
     }
