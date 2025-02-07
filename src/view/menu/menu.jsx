@@ -1,8 +1,8 @@
-import {/*useEffect*/ useRef, useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './styles.css'
+import axios from 'axios';
 
 function Menu () {
-
     const overlayRef = useRef(null);
     const infoDiv = useRef(null);
     const infoOrden = useRef(null);
@@ -10,6 +10,7 @@ function Menu () {
     const opcionesFormRef = useRef();
     const infoAddFormRef = useRef();
     const [pedidos, setPedido] = useState([]);
+    const [data, setData] = useState([]);
     const [openPedidos, setOpenPedidos] = useState([]);
     const [selecciones, setSelecciones] = useState({
         arroz:'',
@@ -23,6 +24,7 @@ function Menu () {
         text:''
     })
 
+    const [platoSeleccionado, setPlatoSeleccionado] = useState(null)
 
     const urlDesktop = 'https://web.whatsapp.com/';
     const urlMobile = 'whatsapp://';
@@ -39,14 +41,21 @@ function Menu () {
         return false;
     }
 
-    
+    useEffect( ()=> {
+        axios.get('http://localhost:5000/ver-platos')
+            .then((response) => setData(response.data))
+            .catch((error) => console.error(error));
+    },[])
 
-    const mostrarPedido = () => {
+    const mostrarPedido = (plato) => {
+        setPlatoSeleccionado(plato)
         if (overlayRef.current && infoDiv.current) {
             overlayRef.current.style.display = "block"; 
             infoDiv.current.style.display = "flex";
             infoDiv.current.style.justifyContent="center";
           }
+          
+          
     }
 
     const listarOrden = () => {
@@ -157,10 +166,7 @@ function Menu () {
         
     };
 
-    // useEffect( ()=> {
-    //     console.log(openPedidos);
-        
-    // },[openPedidos])
+    
     
 
     return (
@@ -168,163 +174,115 @@ function Menu () {
         <h1 className="contenedor__titulo">Menú del día</h1>
 
         <div className="grid">
-
-            <div className="menu" id="plato1__Costillas">
-                <img className="menu__imagen" src="img/costillas.png" alt="costillas bbq"/>
+            {data.map((item, index) => (
+                
+            <div key={index} className="menu" id="plato1__Costillas">
+                <img className="menu__imagen" src="img/default.png" alt={item.descripcion}/>
                 <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre" >Costillas BBQ</h3>
+                    <h3 ref={nombrePlatoRef} className="menu__nombre" >{item.nombre}</h3>
                     <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido}><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
+                        <p className="menu_precio">${item.precio}</p>
+                        <button className="enviarPedido" onClick={() =>mostrarPedido(item)}><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
                     </div>
                 </div>
             </div>
-            
-            <div className="menu"id="plato1__Albondigas">
-                <img className="menu__imagen" src="img/albondigas.png" alt="albondigas"/>
-                <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre">Albondigas</h3>
-                    <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
-                    </div>
-                </div>
-            </div>
-
-            <div className="menu"id="plato1__Mojarra">
-                <img className="menu__imagen" src="img/mojarra.png" alt="mojarra"/>
-                <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre">Mojarra frita</h3>
-                    <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
-                    </div>
-                </div>
-            </div>
-
-            <div className="menu"id="plato1__PastasChamp">
-                <img className="menu__imagen" src="img/pastaschamp.jpg" alt="pastas con champiñones"/>
-                <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre">Pastas con champiñones</h3>
-                    <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
-                    </div>
-                </div>
-            </div>
-            
-            <div className="menu"id="plato1__BandejaPaisa">
-                <img className="menu__imagen" src="img/bandejapaisa.png" alt="bandeja paisa"/>
-                <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre">Bandeja paisa</h3>
-                    <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
-                    </div>
-                </div>
-            </div>
-
-            <div className="menu" id="plato1__PolloGuisado">
-                <img className="menu__imagen" src="img/polloguisado.png" alt="pollo guisado"/>
-                <div className="menu__informacion">
-                    <h3 ref={nombrePlatoRef} className="menu__nombre">Pollo guisado</h3>
-                    <p className="menu__descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="menu__auxiliar">
-                        <p className="menu_precio">$16.000</p>
-                        <button className="enviarPedido" onClick={mostrarPedido} ><img className="menu__orden" src="img/hacerOrden.png" alt=""/></button>
-                    </div>
-                </div>
-            </div>
+            ))}
         </div> 
 
-        
+        {platoSeleccionado && (
+                    <>
+                        <h2>{platoSeleccionado.nombre}</h2>
+                        <p>{platoSeleccionado.descripcion}</p>
+                    </>
+        )}
 
         <div className="infoDiv" ref={infoDiv}>
             <div className="contenidoInfo">
                 <h1>PEDIDO</h1>
-                <div className="contenidoInfo__imagen">
-                    <img className="contenidoInfo__imagen" src="img/costillas.png" alt="costillas BBQ"/>
-                </div>
-                <div className="contenidoInfo__descripcion">
-                    <h2 id="nombre__plato">Costillas BBQ</h2><p>Granos del día(Zaragozas, lentejas) Papitas, patacones, ensalada</p>
-                </div>
-                <h2>Acompañamientos</h2>
-                <form ref={opcionesFormRef} className="menu__opciones">
-                    <fieldset className="grupo-arroz">
-                        <legend className="tipo__opcion">Tipos de Arroz</legend>
-                        <div>
-                            <input type="radio"  name="arroz" value="coco" onChange={tipoSeleccion}/>
-                            <label >Coco</label>
+                {platoSeleccionado && (
+                    <>
+                        <div className="contenidoInfo__imagen">
+                        <img className="contenidoInfo__imagen" src="img/default.png" alt="costillas BBQ"/>
                         </div>
-                        <div>
-                            <input type="radio" name="arroz" value="blanco" onChange={tipoSeleccion}/>
-                            <label >Blanco</label>
+                        <div className="contenidoInfo__descripcion">
+                            <h2 id="nombre__plato">{platoSeleccionado.nombre}</h2><p>Granos del día(Zaragozas, lentejas) Papitas, patacones, ensalada</p>
                         </div>
-                        <div>
-                            <input type="radio"  name="arroz" value="fideo" onChange={tipoSeleccion}/>
-                            <label >Fideo</label>
-                        </div>
-                    </fieldset>
+                        <h2>Acompañamientos</h2>
+                        
+                        <form ref={opcionesFormRef} className="menu__opciones">
+                            <fieldset className="grupo-arroz">
+                                <legend className="tipo__opcion">Tipos de Arroz</legend>
+                                <div>
+                                    <input type="radio"  name="arroz" value="coco" onChange={tipoSeleccion}/>
+                                    <label >Coco</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="arroz" value="blanco" onChange={tipoSeleccion}/>
+                                    <label >Blanco</label>
+                                </div>
+                                <div>
+                                    <input type="radio"  name="arroz" value="fideo" onChange={tipoSeleccion}/>
+                                    <label >Fideo</label>
+                                </div>
+                            </fieldset>
 
-                    <fieldset className="grupo-ensaladas">
-                        <legend className="tipo__opcion">Ensalada</legend>
-                        <div>
-                            <input type="radio"  name="ensalada" value="sin-ensalada" onChange={tipoSeleccion}/>
-                            <label >Sin ensalda</label>
-                        </div>
-                        <div>
-                            <input type="radio"  name="ensalada" value="con-ensalada" onChange={tipoSeleccion}/>
-                            <label >Con ensalada</label>
-                        </div>
-                    </fieldset>
+                            <fieldset className="grupo-ensaladas">
+                                <legend className="tipo__opcion">Ensalada</legend>
+                                <div>
+                                    <input type="radio"  name="ensalada" value="sin-ensalada" onChange={tipoSeleccion}/>
+                                    <label >Sin ensalda</label>
+                                </div>
+                                <div>
+                                    <input type="radio"  name="ensalada" value="con-ensalada" onChange={tipoSeleccion}/>
+                                    <label >Con ensalada</label>
+                                </div>
+                            </fieldset>
 
-                    <fieldset className="grupo-granos">
-                        <legend className="tipo__opcion">Granos</legend>
-                        <div>
-                            <input type="radio" name="granos" value="sin-granos" onChange={tipoSeleccion}/>
-                            <label >Sin granos</label>
-                        </div>
-                        <div>
-                            <input type="radio" name="granos" value="con-granos" onChange={tipoSeleccion}/>
-                            <label >Con granos</label>
-                        </div>
-                    </fieldset>
+                            <fieldset className="grupo-granos">
+                                <legend className="tipo__opcion">Granos</legend>
+                                <div>
+                                    <input type="radio" name="granos" value="sin-granos" onChange={tipoSeleccion}/>
+                                    <label >Sin granos</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="granos" value="con-granos" onChange={tipoSeleccion}/>
+                                    <label >Con granos</label>
+                                </div>
+                            </fieldset>
 
-                    <fieldset className="grupo-sopas">
-                        <legend className="tipo__opcion">Sopa</legend>
-                        <div>
-                            <input type="radio" name="sopa" value="sin-sopa" onChange={tipoSeleccion}/>
-                            <label >Sin sopa</label>
-                        </div>
-                        <div>
-                            <input type="radio" name="sopa" value="con-sopa" onChange={tipoSeleccion}/>
-                            <label >Con sopa</label>
-                        </div>
-                    </fieldset>
-                </form>
-                <button id="guardar-pedido" className="añadir-pedido"  onClick={cargarPedido}>
-                    <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="55"
-                    height="55"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round">
-                    <path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                    <path d="M12.5 17h-6.5v-14h-2" />
-                    <path d="M6 5l14 1l-.86 6.017m-2.64 .983h-10.5" />
-                    <path d="M16 19h6" />
-                    <path d="M19 16v6" />
-                  </svg>
-                  </button>
+                            <fieldset className="grupo-sopas">
+                                <legend className="tipo__opcion">Sopa</legend>
+                                <div>
+                                    <input type="radio" name="sopa" value="sin-sopa" onChange={tipoSeleccion}/>
+                                    <label >Sin sopa</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="sopa" value="con-sopa" onChange={tipoSeleccion}/>
+                                    <label >Con sopa</label>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <button id="guardar-pedido" className="añadir-pedido"  onClick={cargarPedido}>
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="55"
+                            height="55"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                            <path d="M12.5 17h-6.5v-14h-2" />
+                            <path d="M6 5l14 1l-.86 6.017m-2.64 .983h-10.5" />
+                            <path d="M16 19h6" />
+                            <path d="M19 16v6" />
+                        </svg>
+                        </button>
+                    </>
+                )}
             </div>
         </div>
 

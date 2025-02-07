@@ -8,7 +8,15 @@ const PlatoSchema = new mongoose.Schema({
     categoria: { type: String }
 });
 
+const Selecciones = new mongoose.Schema({
+    tipoSeleccion: { type: String, required: true },
+    descripcionSeleccion: { type: String, required: true},
+    categoriaSeleccion: { type: String, required: true }
+});
+
+
+const Seleccion = mongoose.model('Seleccion', Selecciones);
 
 const Plato = mongoose.model('Plato', PlatoSchema);
 
-export default Plato; 
+export {Plato, Seleccion}; 

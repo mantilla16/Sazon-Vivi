@@ -2,8 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'; // Importa el middleware CORS
 import dotenv from 'dotenv';
-import Plato from './models/platoModel.js';
-import Seleccion from './models/seleccionModel.js';
+import {Plato, Seleccion} from './models/models.js';
 
 dotenv.config();
 
@@ -14,7 +13,7 @@ app.use(express.json()); // Middleware para leer el cuerpo de las solicitudes JS
 // Configura CORS para permitir solicitudes desde tu frontend
 const corsOptions = {
     origin: 'http://localhost:5173', // Permite solicitudes desde tu frontend en React
-    methods: ['GET', 'POST'], // Métodos permitidos
+    methods: ['GET', 'POST', 'PUT'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     credentials: true,  // Permite el envío de cookies
 };
@@ -22,8 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Aplica la configuración de CORS
 // eslint-disable-next-line no-undef
 mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,  // Asegura que se use el nuevo analizador de URL
-    useUnifiedTopology: true,  // Habilita el uso del nuevo motor de topología de MongoDB
     connectTimeoutMS: 30000,  // Aumenta el tiempo de espera para la conexión
 })
     .then(() => console.log("MongoDB conectado"))
@@ -85,15 +82,31 @@ app.post('/crear-plato', async (req, res) => {
 
 app.get('/ver-platos', async (req, res) => {
     try {
-        // Realizar una consulta específica, ejemplo: encontrar platos por categoría
-        const platos = await Plato.find({ categoria: 'Asados' });
+        // Realizar una consulta específica, ejemplo: encontrar platos por categorí
+        const platos = await Plato.find({});
         res.json(platos);
-        console.log(platos);
         
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
+
+app.put('/actualizar-plato:id', async(req, res) =>{
+
+    try{
+        const {id} = req.params
+        const nuevosDatos = req.body
+
+        const platoActualizado = await Plato.findByIdAndUpdate(id, nuevosDatos,{new:true})
+
+        if(!platoActualizado){
+            return res.status(404).json({message:'Plato no encontrado'})
+        }
+    }catch (error){
+       res.status(500).send(error.message)
+        
+    }
+})
 
 app.listen(5000, () => {
     console.log('Servidor corriendo en el puerto 5000');
